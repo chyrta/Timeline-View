@@ -64,6 +64,8 @@ public class TimelineView extends View {
     private int mLineWidth;
     private int mLineOrientation;
     private int mLineStyle;
+    private int mStartLineStyle;
+    private int mEndLineStyle;
     private int mLineStyleDashLength;
     private int mLineStyleDashGap;
     private int mLinePadding;
@@ -269,11 +271,19 @@ public class TimelineView extends View {
         }
 
         if(mDrawStartLine) {
+            if (mStartLineStyle == LineStyle.DASHED)
+                mLinePaint.setPathEffect(new DashPathEffect(new float[]{(float) mLineStyleDashLength, (float) mLineStyleDashGap}, 0.0f));
+            else
+                mLinePaint.setPathEffect(new PathEffect());
             mLinePaint.setColor(mStartLineColor);
             canvas.drawLine(mStartLineStartX, mStartLineStartY, mStartLineStopX, mStartLineStopY, mLinePaint);
         }
 
         if(mDrawEndLine) {
+            if (mEndLineStyle == LineStyle.DASHED)
+                mLinePaint.setPathEffect(new DashPathEffect(new float[]{(float) mLineStyleDashLength, (float) mLineStyleDashGap}, 0.0f));
+            else
+                mLinePaint.setPathEffect(new PathEffect());
             mLinePaint.setColor(mEndLineColor);
             canvas.drawLine(mEndLineStartX, mEndLineStartY, mEndLineStopX, mEndLineStopY, mLinePaint);
         }
@@ -469,6 +479,24 @@ public class TimelineView extends View {
      */
     public void setLineStyle(int lineStyle) {
         this.mLineStyle = lineStyle;
+        initLinePaint();
+    }
+
+    /**
+     * Sets start line style
+     * @return startLineStyle
+     */
+    public void setStartLineStyle(int lineStyle) {
+        this.mStartLineStyle = lineStyle;
+        initLinePaint();
+    }
+
+    /**
+     * Sets end line style
+     * @return endLineStyle
+     */
+    public void setEndLineStyle(int lineStyle) {
+        this.mEndLineStyle = lineStyle;
         initLinePaint();
     }
 
